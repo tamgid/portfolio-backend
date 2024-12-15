@@ -1,0 +1,135 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model admin {
+  id                       Int             @id @default(autoincrement())
+  admin_firstName          String          @db.VarChar(30)
+  admin_lastName           String          @db.VarChar(30)
+  admin_linkedin_url       String          @db.VarChar(200)
+  admin_twitter_url        String          @db.VarChar(200)
+  admin_instagram_url      String          @db.VarChar(200)
+  admin_facebook_url       String          @db.VarChar(200)
+  admin_github_url         String          @db.VarChar(200)
+  admin_short_introduction String          @db.Text
+  admin_city               String          @db.VarChar(100)
+  admin_country            String          @db.VarChar(100)
+  admin_street_address     String          @db.VarChar(100)
+  role_name                admin_role_name
+  admin_phone              String          @db.VarChar(20)
+  admin_free_from_day      String          @db.VarChar(20)
+  admin_free_to_day        String          @db.VarChar(20)
+  admin_free_from_time     String          @db.VarChar(20)
+  admin_free_to_time       String          @db.VarChar(20)
+  user_id                  Int
+}
+
+model admin_about {
+  id                      Int                         @id @default(autoincrement())
+  admin_about_title       String                      @db.VarChar(500)
+  admin_about_description String                      @db.Text
+  admin_about_for         admin_about_admin_about_for
+  admin_id                Int
+}
+
+model admin_image {
+  id              Int                         @id @default(autoincrement())
+  admin_image_url String                      @db.VarChar(200)
+  admin_image_for admin_image_admin_image_for
+  admin_id        Int
+}
+
+model client_review {
+  id               Int    @id @default(autoincrement())
+  client_name      String @db.VarChar(50)
+  client_review    String @db.Text
+  client_image_url String @db.VarChar(200)
+  admin_id         Int
+}
+
+model portfolio {
+  id                    Int               @id @default(autoincrement())
+  portfolio_title       String            @db.VarChar(500)
+  portfolio_description String            @db.Text
+  admin_id              Int
+  portfolio_image       portfolio_image[]
+}
+
+model portfolio_image {
+  id                  Int       @id @default(autoincrement())
+  portfolio_image_url String    @db.VarChar(200)
+  portfolio_id        Int
+  portfolio           portfolio @relation(fields: [portfolio_id], references: [id], onDelete: Cascade, map: "Relation to portfolio table")
+
+  @@index([portfolio_id], map: "Relation to portfolio table")
+}
+
+model service {
+  id                  Int    @id @default(autoincrement())
+  service_title       String @db.VarChar(500)
+  service_description String @db.Text
+  service_icon_url    String @db.VarChar(200)
+  admin_id            Int
+}
+
+model tech_knowledge {
+  id                           Int    @id @default(autoincrement())
+  technology_name              String @db.VarChar(50)
+  skill_proficiency_percentage Int
+  admin_id                     Int
+}
+
+model user_comment {
+  id                    Int      @id @default(autoincrement())
+  user_name             String   @db.VarChar(50)
+  user_email            String   @db.VarChar(50)
+  user_comment          String   @db.Text
+  user_comment_datetime DateTime @db.DateTime(0)
+}
+
+model users {
+  id       Int    @id @default(autoincrement())
+  username String @db.VarChar(255)
+  email    String @db.VarChar(255)
+  password String @db.VarChar(255)
+}
+
+model video {
+  id                Int    @id @default(autoincrement())
+  video_title       String @db.VarChar(50)
+  video_description String @db.Text
+  video_url         String @db.VarChar(200)
+  admin_id          Int
+}
+
+model work_experience {
+  id                                   Int    @id @default(autoincrement())
+  experience_title                     String @db.VarChar(500)
+  experience_description               String @db.Text
+  experience_from_year                 String @db.VarChar(20)
+  experience_to_year                   String @db.VarChar(20)
+  experience_industry_name             String @db.VarChar(50)
+  experience_industry_location_ciry    String @db.VarChar(20)
+  experience_industry_location_country String @db.VarChar(20)
+  admin_id                             Int
+}
+
+enum admin_image_admin_image_for {
+  home
+  about
+}
+
+enum admin_about_admin_about_for {
+  home
+  about
+}
+
+enum admin_role_name {
+  admin
+  user
+}

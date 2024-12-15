@@ -1,0 +1,16 @@
+{
+  "compilerOptions": {
+    "target": "ES6",
+    "module": "CommonJS",        // Use CommonJS modules for Node.js
+    "moduleResolution": "node",
+    "strict": true,
+    "esModuleInterop": true,     // Allow for importing CommonJS modules
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true,
+    "outDir": "./dist",          // Output directory for compiled JavaScript
+    "allowJs": true,
+    "resolveJsonModule": true
+  },
+  "include": ["src/**/*"],       // Include all TypeScript files in the src folder
+  "exclude": ["node_modules"]    // Exclude node_modules from compilation
+}
